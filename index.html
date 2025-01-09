@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programming Languages</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!--font for icon-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url(https://fonts.googleapis.com/css?family=Open+Sans:400|Raleway:300);
 
@@ -147,17 +147,19 @@
             color: rgba(104, 85, 224, 1);
         }
 
-        /* Centered ChatGPT-style input box */
+       
         .input-box-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+             position: fixed;
+            left: 75%;
+            transform: translateX(-50%);
             width: 80%;
-        }
+            bottom: 50%; 
+            transition: bottom 0.3s ease, transform 0.3s ease;
+         }
+
+        .input-box-container.bottom {
+           bottom: 20px; 
+         }
 
         .input-box {
             width: 100%;
@@ -177,10 +179,33 @@
             border-color: #8a2be2;
             background-color: #444;
         }
+
+        .messages-container {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #222222;
+            max-width: 1000px;
+            margin-left: 270px;
+        }
+
+        .message {
+            padding: 10px;
+            background-color: #444;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .send-btn {
+            cursor: pointer;
+            border: 0;
+            background: none;
+            color: white;
+            font-size: 28px;
+            margin-left: 20px;
+        }
     </style>
 </head>
 <body>
-    <!--Search bar and Icon-->
     <div class="top-bar">
         <div class="search-container">
             <input type="text" class="search-bar" placeholder="Search...">
@@ -191,51 +216,205 @@
         </div>
     </div>
 
-    <!-- ChatGPT-style input box -->
     <div class="input-box-container">
-        <input type="text" class="input-box" placeholder="Ask something...">
+        <input type="text" class="input-box" id="chat-input" placeholder="Ask something...">
+        <button class="send-btn" onclick="uploadMessage()">
+            <i class="fas fa-arrow-right"></i>
+        </button>
     </div>
 
-    <!--Buttons-->
     <div class="buttons">
         <h2>Programming Languages</h2>
         <ul class="button-list">
-            <li><a href="#" class="btn-swipe"><span>Java</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>Python</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>Rust</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>HTML</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>CSS</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>JavaScript</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>C</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>C++</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>PHP</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>Swift</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>Kotlin</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>TypeScript</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>Ruby</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>Go</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>Perl</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>SQL</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>Shell</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>Scala</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>R</span></a></li>
-            <li><a href="#" class="btn-swipe"><span>Dart</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Java')"><span>Java</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Python')"><span>Python</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Rust')"><span>Rust</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('HTML')"><span>HTML</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('CSS')"><span>CSS</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('JavaScript')"><span>JavaScript</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('C')"><span>C</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('C++')"><span>C++</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('PHP')"><span>PHP</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Swift')"><span>Swift</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Kotlin')"><span>Kotlin</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('TypeScript')"><span>TypeScript</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Ruby')"><span>Ruby</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Go')"><span>Go</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Perl')"><span>Perl</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('SQL')"><span>SQL</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Shell')"><span>Shell</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Scala')"><span>Scala</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('R')"><span>R</span></a></li>
+            <li><a href="#" class="btn-swipe" onclick="showMessages('Dart')"><span>Dart</span></a></li>
+        </ul>
+    </div>
         </ul>
     </div>
 
-    <script>
-        // Get all buttons
-        const buttons = document.querySelectorAll('.btn-swipe');
+    <div class="messages-container" id="messages-container">
+    </div>
 
-        // Function to highlight the clicked button
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove the 'highlighted' class from all buttons
-                buttons.forEach(btn => btn.classList.remove('highlighted'));
-                // Add the 'highlighted' class to the clicked button
-                button.classList.add('highlighted');
+    <script>
+        let currentLanguage = ''; 
+        let messages = {
+            'Java': [],
+            'Python': [],
+            'Rust': [],
+            'HTML': [],
+            'CSS': [],
+            'JavaScript': [],
+            'C': [],
+            'C++': [],
+            'PHP': [],
+            'Swift': [],
+            'Kotlin': [],
+            'TypeScript': [],
+            'Ruby': [],
+            'Go': [],
+            'Perl': [],
+            'SQL': [],
+            'Shell': [],
+            'Scala': [],
+            'R': [],
+            'Dart': []
+        };
+
+        function uploadMessage() {
+    const inputBox = document.getElementById('chat-input');
+    const messageText = inputBox.value;
+
+    if (messageText.trim() !== "" && currentLanguage !== '') {
+        const newMessage = { text: messageText, replyTo: null }; // Default structure for messages
+        if (replyTarget !== null) {
+            newMessage.replyTo = messages[currentLanguage][replyTarget].text; // Add reply-to reference
+            replyTarget = null; // Reset reply target
+        }
+        messages[currentLanguage].push(newMessage);
+
+        displayMessages(currentLanguage);
+
+        if (messages[currentLanguage].length > 0) {
+            document.querySelector('.input-box-container').classList.add('bottom');
+        }
+
+        inputBox.value = ""; // Clear the input box
+        inputBox.placeholder = "Ask something..."; // Reset placeholder to default
+    }
+}
+
+
+        function displayMessages(language) {
+        const container = document.getElementById('messages-container');
+        container.innerHTML = '';
+
+        messages[language].forEach((msgObj, index) => {
+            const messageWrapper = document.createElement('div');
+            messageWrapper.style.marginBottom = '10px';
+
+            if (msgObj.replyTo) {
+                const replyToElement = document.createElement('div');
+                replyToElement.textContent = `>>${msgObj.replyTo}`;
+                replyToElement.style.color = '#888';
+                replyToElement.style.fontSize = '14px';
+                replyToElement.style.paddingLeft = '10px';
+                replyToElement.style.borderLeft = '2px solid #555';
+                replyToElement.style.marginBottom = '5px';
+                messageWrapper.appendChild(replyToElement);
+            }
+
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.textContent = msgObj.text;
+
+            //delete icon
+            const deleteIcon = document.createElement('i');
+            deleteIcon.className = 'fas fa-trash-alt';
+            deleteIcon.style.marginLeft = '10px';
+            deleteIcon.style.cursor = 'pointer';
+            deleteIcon.style.color = '#ff4d4d';
+            deleteIcon.onclick = function () {
+                deleteMessage(language, index);
+            };
+
+            //reply icon
+            const replyIcon = document.createElement('i');
+            replyIcon.className = 'fas fa-reply';
+            replyIcon.style.marginLeft = '10px';
+            replyIcon.style.cursor = 'pointer';
+            replyIcon.style.color = '#4caf50';
+            replyIcon.onclick = function () {
+                replyToMessage(language, index);
+            };
+
+            //icons
+            messageElement.appendChild(deleteIcon);
+            messageElement.appendChild(replyIcon);
+
+            messageWrapper.appendChild(messageElement);
+            container.appendChild(messageWrapper);
+        });
+
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function uploadMessage() {
+        const messageText = document.getElementById('chat-input').value;
+        if (messageText.trim() !== "" && currentLanguage !== '') {
+            const newMessage = { text: messageText, replyTo: null }; // Default to no reply
+            if (replyTarget !== null) {
+                newMessage.replyTo = messages[currentLanguage][replyTarget].text; // Reference the replied-to message
+                replyTarget = null; // Reset reply target
+            }
+            messages[currentLanguage].push(newMessage);
+
+            displayMessages(currentLanguage);
+
+            if (messages[currentLanguage].length > 0) {
+                document.querySelector('.input-box-container').classList.add('bottom');
+            }
+
+            document.getElementById('chat-input').value = "";
+        }
+    }
+
+    function deleteMessage(language, index) {
+        messages[language].splice(index, 1);
+        displayMessages(language);
+    }
+
+    let replyTarget = null;
+
+    function replyToMessage(language, index) {
+        const inputBox = document.getElementById('chat-input');
+        replyTarget = index; 
+        inputBox.placeholder = `Replying to: ${messages[language][index].text}`;
+        inputBox.focus();
+    }
+
+        function showMessages(language) {
+            currentLanguage = language;
+            displayMessages(language);
+
+            const buttons = document.querySelectorAll('.btn-swipe');
+            buttons.forEach(btn => {
+                btn.classList.remove('highlighted');
             });
+
+            const activeButton = Array.from(buttons).find(btn => btn.textContent.trim() === language);
+            if (activeButton) {
+                activeButton.classList.add('highlighted');
+            }
+            if (messages[currentLanguage].length > 0) {
+                document.querySelector('.input-box-container').classList.add('bottom');
+            } else {
+                document.querySelector('.input-box-container').classList.remove('bottom');
+            }
+        }
+        document.getElementById('chat-input').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                uploadMessage();
+            }
         });
     </script>
-</body>
+    </body>
 </html>
